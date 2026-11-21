@@ -36,6 +36,9 @@ final class Didban_Activator {
 			);
 		}
 
+		require_once DIDBAN_PATH . 'includes/class-database.php';
+		Didban_Database::install();
+
 		update_option( 'didban_version', DIDBAN_VERSION );
 	}
 }

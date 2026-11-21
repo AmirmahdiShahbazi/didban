@@ -1,39 +1,174 @@
-/* Scoped styles for the Didban Persian RTL dashboard */
-
-.didban-dashboard {
-	font-family: Vazirmatn, IRANSans, Tahoma, "Segoe UI", sans-serif;
-	direction: rtl;
-	text-align: right;
-	margin-top: 12px;
-	color: #1e293b;
+@font-face {
+	font-family: "Vazir";
+	src: url("../fonts/Vazir.woff") format("woff");
+	font-weight: 100 900;
+	font-style: normal;
+	font-display: swap;
 }
 
-.didban-dashboard .didban-title {
-	color: #0f172a;
+.didban-body {
+	font-family: "Vazir", Tahoma, "Segoe UI", sans-serif;
+	background-color: #090d16 !important;
+	background-image:
+		radial-gradient(circle at 15% 10%, rgba(79, 70, 229, 0.22), transparent 38%),
+		radial-gradient(circle at 85% 25%, rgba(6, 182, 212, 0.14), transparent 38%);
+	background-attachment: fixed;
+	color: #e2e8f0;
 }
 
-.didban-dashboard .didban-stat-card {
-	transition: transform 0.15s ease, box-shadow 0.15s ease;
+.didban-body .dashicons {
+	vertical-align: middle;
+	line-height: 1;
 }
 
-.didban-dashboard .didban-stat-card:hover {
+.didban-navbar {
+	background-color: #0f172a !important;
+	border-bottom: 1px solid #1e293b;
+}
+
+.didban-brand-badge {
+	width: 34px;
+	height: 34px;
+	background: linear-gradient(135deg, #6366f1 0%, #06b6d4 100%);
+	box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+}
+
+/* Cards & Surfaces */
+.didban-surface {
+	background-color: #111827 !important;
+	border: 1px solid #1f2937 !important;
+	color: #f1f5f9 !important;
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25) !important;
+}
+
+.didban-inner-box {
+	background-color: #1e293b;
+	border: 1px solid #334155;
+	color: #f1f5f9;
+}
+
+.didban-muted {
+	color: #94a3b8 !important;
+}
+
+/* Command Hero Card */
+.didban-command-card {
+	background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 70%) !important;
+	border: 1px solid #3730a3 !important;
+	color: #ffffff !important;
+	box-shadow: 0 20px 45px rgba(0, 0, 0, 0.4) !important;
+}
+
+.didban-pill-indigo {
+	background-color: rgba(99, 102, 241, 0.22);
+	color: #c7d2fe;
+	border: 1px solid rgba(129, 140, 248, 0.35);
+}
+
+.didban-pill-cyan {
+	background-color: rgba(6, 182, 212, 0.18);
+	color: #a5f3fc;
+	border: 1px solid rgba(34, 211, 238, 0.35);
+}
+
+.didban-pill-neutral {
+	background-color: #1e293b;
+	color: #e2e8f0;
+	border: 1px solid #334155;
+}
+
+/* SVG Health Gauge */
+.didban-gauge-svg {
+	width: 118px;
+	height: 118px;
+	transform: rotate(-90deg);
+}
+
+.didban-gauge-track {
+	fill: none;
+	stroke: rgba(148, 163, 184, 0.2);
+	stroke-width: 8;
+}
+
+.didban-gauge-fill {
+	fill: none;
+	stroke: #38bdf8;
+	stroke-width: 8;
+	stroke-linecap: round;
+	filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.45));
+	transition: stroke-dashoffset 0.6s ease;
+}
+
+/* Diagnostic Cards */
+.didban-diag-card {
+	border-right-width: 4px !important;
+	transition: transform 0.16s ease, box-shadow 0.16s ease;
+}
+
+.didban-diag-card:hover {
 	transform: translateY(-2px);
 }
 
-.didban-dashboard .didban-empty-icon {
-	width: 56px;
-	height: 56px;
-	margin-inline: auto;
-	border-radius: 50%;
-	background-color: #f1f5f9;
-	display: flex;
-	align-items: center;
-	justify-content: center;
+.didban-border-danger { border-right-color: #f43f5e !important; }
+.didban-border-warning { border-right-color: #f59e0b !important; }
+.didban-border-info { border-right-color: #06b6d4 !important; }
+.didban-border-primary { border-right-color: #6366f1 !important; }
+
+/* Semantic Icon & Badge Tints */
+.didban-tint-danger { background-color: rgba(244, 63, 94, 0.16); color: #fda4af; border: 1px solid rgba(244, 63, 94, 0.3); }
+.didban-tint-warning { background-color: rgba(245, 158, 11, 0.16); color: #fcd34d; border: 1px solid rgba(245, 158, 11, 0.3); }
+.didban-tint-info { background-color: rgba(6, 182, 212, 0.16); color: #67e8f9; border: 1px solid rgba(6, 182, 212, 0.3); }
+.didban-tint-primary { background-color: rgba(99, 102, 241, 0.18); color: #a5b4fc; border: 1px solid rgba(99, 102, 241, 0.35); }
+.didban-tint-success { background-color: rgba(16, 185, 129, 0.16); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.3); }
+.didban-tint-secondary { background-color: #1e293b; color: #cbd5e1; border: 1px solid #334155; }
+
+.didban-progress-track {
+	background-color: #1e293b;
+}
+
+/* Dark Table */
+.didban-table {
+	color: #e2e8f0 !important;
+}
+
+.didban-table thead th {
+	background-color: #0f172a !important;
+	color: #94a3b8 !important;
+	border-bottom: 1px solid #1e293b !important;
+}
+
+.didban-table tbody td {
+	background-color: transparent !important;
+	color: #e2e8f0 !important;
+	border-bottom: 1px solid #1e293b !important;
+}
+
+.didban-table tbody tr:hover td {
+	background-color: rgba(30, 41, 59, 0.55) !important;
+}
+
+/* Dark Form Controls (Issues Page) */
+.didban-body .form-control,
+.didban-body .form-select {
+	background-color: #1e293b;
+	border-color: #334155;
+	color: #f1f5f9;
+}
+
+.didban-body .form-control::placeholder {
 	color: #64748b;
 }
 
-.didban-dashboard .didban-empty-icon .dashicons {
-	font-size: 28px;
-	width: 28px;
-	height: 28px;
+.didban-body .form-control:focus,
+.didban-body .form-select:focus {
+	background-color: #1e293b;
+	border-color: #38bdf8;
+	color: #ffffff;
+	box-shadow: 0 0 0 0.2rem rgba(56, 189, 248, 0.2);
+}
+
+.didban-footer {
+	background-color: #0f172a !important;
+	border-top: 1px solid #303b4d !important;
+	color: #94a3b8;
 }

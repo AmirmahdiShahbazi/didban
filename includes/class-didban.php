@@ -34,6 +34,13 @@ final class Didban {
 	private ?Didban_Assets $assets = null;
 
 	/**
+	 * Background scan manager.
+	 *
+	 * @var Didban_Scan_Manager|null
+	 */
+	private ?Didban_Scan_Manager $scan_manager = null;
+
+	/**
 	 * Get singleton instance.
 	 */
 	public static function instance(): self {
@@ -55,9 +62,12 @@ final class Didban {
 	public function init(): void {
 		$this->load_dependencies();
 		$this->load_textdomain();
-
+		Didban_Database::maybe_upgrade();
 		if ( ! Didban_WooCommerce::is_active() ) {
 			add_action( 'admin_notices', array( Didban_WooCommerce::class, 'render_missing_notice' ) );
+		} else {
+			$this->scan_manager = new Didban_Scan_Manager();
+			$this->scan_manager->init();
 		}
 
 		if ( is_admin() ) {
@@ -66,7 +76,16 @@ final class Didban {
 
 			$this->admin->init();
 			$this->assets->init();
+			$ajax = new Didban_Ajax();
+			$ajax->init();
 		}
+	}
+
+	/**
+	 * Get the scan manager instance.
+	 */
+	public function scan_manager(): ?Didban_Scan_Manager {
+		return $this->scan_manager;
 	}
 
 	/**
@@ -75,11 +94,22 @@ final class Didban {
 	private function load_dependencies(): void {
 		require_once DIDBAN_PATH . 'includes/class-capabilities.php';
 		require_once DIDBAN_PATH . 'includes/class-woocommerce.php';
+		require_once DIDBAN_PATH . 'includes/class-scan-manager.php';
+		require_once DIDBAN_PATH . 'includes/class-scanner.php';
+		require_once DIDBAN_PATH . 'includes/checks/class-price-check.php';
+		require_once DIDBAN_PATH . 'includes/checks/class-sku-check.php';
+		require_once DIDBAN_PATH . 'includes/checks/class-image-check.php';
+		require_once DIDBAN_PATH . 'includes/checks/class-empty-product-check.php';
+		require_once DIDBAN_PATH . 'includes/checks/class-duplicate-check.php';
 		require_once DIDBAN_PATH . 'includes/class-assets.php';
 		require_once DIDBAN_PATH . 'includes/class-admin.php';
 		require_once DIDBAN_PATH . 'admin/class-dashboard.php';
+		require_once DIDBAN_PATH . 'includes/class-database.php';
+		require_once DIDBAN_PATH . 'includes/class-issue-repository.php';
+		require_once DIDBAN_PATH . 'includes/class-ajax.php';
+		require_once DIDBAN_PATH . 'admin/class-issues-page.php';
+		require_once DIDBAN_PATH . 'admin/class-settings.php';
 	}
-
 	/**
 	 * Load WordPress text domain for native integration strings.
 	 */

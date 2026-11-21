@@ -1,6 +1,6 @@
 <?php
 /**
- * WordPress Admin menu and page routing.
+ * WordPress Admin menu and standalone panel routing.
  *
  * @package Didban
  */
@@ -8,7 +8,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Registers Didban admin menus and plugin links.
+ * Registers Didban admin menu and routes to the standalone Didban panel.
  */
 final class Didban_Admin {
 
@@ -23,6 +23,32 @@ final class Didban_Admin {
 	 * @var string
 	 */
 	private string $page_hook = '';
+
+	/**
+	 * Menu slug for the issues management page.
+	 */
+	public const ISSUES_SLUG = 'didban-issues';
+
+	/**
+	 * Registered hook suffix for the issues page.
+	 *
+	 * @var string
+	 */
+	private string $issues_hook = '';
+
+	/**
+	 * Menu slug for the settings page.
+	 */
+	public const SETTINGS_SLUG = 'didban-settings';
+
+	/**
+	 * Registered hook suffix for the settings page.
+	 *
+	 * @var string
+	 */
+	private string $settings_hook = '';
+
+
 
 	/**
 	 * Register WordPress admin hooks.
@@ -41,10 +67,71 @@ final class Didban_Admin {
 			'دیدبان',
 			Didban_Capabilities::get_manage_capability(),
 			self::MENU_SLUG,
-			array( $this, 'render_page' ),
+			'__return_null',
 			'dashicons-visibility',
 			56
 		);
+
+		if ( '' !== $this->page_hook ) {
+			add_action( 'load-' . $this->page_hook, array( $this, 'render_standalone_panel' ) );
+		}
+		$this->issues_hook = (string) add_submenu_page(
+			self::MENU_SLUG,
+			'گزارش مشکلات',
+			'گزارش مشکلات',
+			Didban_Capabilities::get_manage_capability(),
+			self::ISSUES_SLUG,
+			'__return_null'
+		);
+
+		if ( '' !== $this->issues_hook ) {
+			add_action( 'load-' . $this->issues_hook, array( $this, 'render_standalone_issues' ) );
+		}
+
+		$this->settings_hook = (string) add_submenu_page(
+			self::MENU_SLUG,
+			'تنظیمات دیدبان',
+			'تنظیمات',
+			Didban_Capabilities::get_manage_capability(),
+			self::SETTINGS_SLUG,
+			'__return_null'
+		);
+
+		if ( '' !== $this->settings_hook ) {
+			add_action( 'load-' . $this->settings_hook, array( $this, 'render_standalone_settings' ) );
+		}
+	}
+
+	/**
+	 * Render the standalone Settings page.
+	 */
+	public function render_standalone_settings(): void {
+		Didban_Capabilities::verify_access();
+
+		if ( ! Didban_WooCommerce::is_active() ) {
+			require DIDBAN_PATH . 'admin/views/not-available.php';
+			exit;
+		}
+
+		$settings_page = new Didban_Settings();
+		$settings_page->render();
+		exit;
+	}
+
+	/**
+	 * Render the standalone Issues Management page.
+	 */
+	public function render_standalone_issues(): void {
+		Didban_Capabilities::verify_access();
+
+		if ( ! Didban_WooCommerce::is_active() ) {
+			require DIDBAN_PATH . 'admin/views/not-available.php';
+			exit;
+		}
+
+		$issues_page = new Didban_Issues_Page();
+		$issues_page->render();
+		exit;
 	}
 
 	/**
@@ -55,18 +142,19 @@ final class Didban_Admin {
 	}
 
 	/**
-	 * Render the Didban admin page.
+	 * Render the standalone Didban panel outside the WordPress admin layout.
 	 */
-	public function render_page(): void {
+	public function render_standalone_panel(): void {
 		Didban_Capabilities::verify_access();
 
 		if ( ! Didban_WooCommerce::is_active() ) {
 			require DIDBAN_PATH . 'admin/views/not-available.php';
-			return;
+			exit;
 		}
 
 		$dashboard = new Didban_Dashboard();
 		$dashboard->render();
+		exit;
 	}
 
 	/**
