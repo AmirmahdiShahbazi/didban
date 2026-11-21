@@ -1,0 +1,39 @@
+/* Scoped styles for the Didban Persian RTL dashboard */
+
+.didban-dashboard {
+	font-family: Vazirmatn, IRANSans, Tahoma, "Segoe UI", sans-serif;
+	direction: rtl;
+	text-align: right;
+	margin-top: 12px;
+	color: #1e293b;
+}
+
+.didban-dashboard .didban-title {
+	color: #0f172a;
+}
+
+.didban-dashboard .didban-stat-card {
+	transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.didban-dashboard .didban-stat-card:hover {
+	transform: translateY(-2px);
+}
+
+.didban-dashboard .didban-empty-icon {
+	width: 56px;
+	height: 56px;
+	margin-inline: auto;
+	border-radius: 50%;
+	background-color: #f1f5f9;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: #64748b;
+}
+
+.didban-dashboard .didban-empty-icon .dashicons {
+	font-size: 28px;
+	width: 28px;
+	height: 28px;
+}
